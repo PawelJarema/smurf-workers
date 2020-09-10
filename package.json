@@ -20,10 +20,10 @@
     "background job queue"
   ],
   "author": "paweljarema",
-  "homepage": "",
+  "homepage": "https://github.com/PawelJarema/smurf-workers",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git://github.com/PawelJarema/smurf-workers.git"
   },
   "license": "ISC",
   "dependencies": {}
