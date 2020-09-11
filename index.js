@@ -70,7 +70,7 @@ class SmurfWorkers {
     nextTask (jobName) {
         if (!this._tasks[jobName] || !this._tasks[jobName].length) return
         if (this._smurfsAvailable[jobName] && this._smurfsAvailable[jobName].length) {
-            const jobDetails = this._tasks[jobName].pop()
+            const jobDetails = this._tasks[jobName].shift()
             const id = this._smurfsAvailable[jobName].pop()
             const smurf = this._smurfs[id]
             this.log(`Assigning ${jobName} task to Smurf ${id}.`)

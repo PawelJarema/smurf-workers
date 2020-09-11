@@ -3,7 +3,7 @@ A lightweight, beginner friendly, reusable worker module supporting multiple job
 
 ### Installation
 ```sh
-$ npm install -S 'smurf-workers'
+$ npm install -S smurf-workers
 ```
 
 ### Prerequisites
@@ -34,7 +34,7 @@ const smurfWorkers = require('./workers')   // workers.js from previous step
 smurfWorkers.spawn('processImage', 3)       // spawn 3 workers to resize images
 smurfWorkers.spawn('addWatermark')          // spawn 1 worker to add watermarks
 ```
-From now on, workers await to do your bidding. To queue a job, provide job name and job details:
+From now on, workers await to do your bidding. To queue a job, provide **job name** and **job details**:
 ```sh
 smurfWorkers.smurf('processImage', { src: './input/tree.jpg', dest: './output/tree.jpg' })
 smurfWorkers.smurf('addWatermark', { src: './output/cat.jpg', dest: './output/cat.jpg' })
@@ -42,7 +42,7 @@ smurfWorkers.smurf('addWatermark', { src: './output/cat.jpg', dest: './output/ca
 This will add jobs to the queue. The job will be assigned immediately, if any worker in the given field is idle (the queue is empty). If not, it will be assigned as soon as workers are done with previously assigned workload. Workload will be evenly distributed across workers.
 
 ### Creating Jobs
-Jobs are just functions, exported from separate file in jobPath (specified in instance setup step). File names should be the same as job names you provide in smurfWorker.spawn function (without .js extension). Job functions should also take job details, onError and whenDone callbacks as arguments. Order is important. Let's take 'processImage.js' job, shown in previous step, for example:
+Jobs are just functions, exported from separate file in jobPath (specified in instance setup step). File names should be the same as job names you provide in smurfWorker.spawn function (without .js extension). Job functions should also take **job details**, **onError** and **whenDone** callbacks as arguments. Order is important. Let's take 'processImage.js' job, shown in previous step, for example:
 
 ###### **`processImage.js`**
 ```sh
@@ -61,7 +61,7 @@ module.exports = function processImage({ src, dest }, onError, whenDone) {
 }
 ```
 
-This job uses sharp to resize and compress images. Notice the use of job detalis ({ src, dest }), which is the object we passed to smurfWorkers.spawn in previous step. This way, you can pass any basic data to your worker. Also, notice the use of onError and whenDone. whenDone is called when worker is ready to be marked as idle.
+This job uses sharp to resize and compress images. Notice the use of job detalis **({ src, dest })**, which is the object we passed to smurfWorkers.smurf function in previous step. This way, you can pass any basic data to your worker. Also, notice the use of **onError** and **whenDone**. whenDone is called when worker is ready to be marked as idle.
 
 ### License
 Free to use any way you like.

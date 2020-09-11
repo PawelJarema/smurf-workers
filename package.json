@@ -1,12 +1,13 @@
 {
   "name": "smurf-workers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight, beginner friendly, reusable worker module supporting multiple job types, including job queues and automatic job distribution across idle workers. Written to abstract away cumbersome Node.js Worker setup to bare minimum.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
+    "simple",
     "workers",
     "node workers",
     "worker threads",
