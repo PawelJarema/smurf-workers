@@ -1,4 +1,4 @@
-const { MSG_DONE, MSG_ERR } = require('./constants')
+const { MSG_DONE, MSG_ERR, MSG } = require('./constants')
 const { Worker } = require('worker_threads')
 const path = require('path')
 class SmurfWorkers {
@@ -40,8 +40,12 @@ class SmurfWorkers {
                             this._smurfsAvailable[jobName].push(id)
                             this.nextTask(jobName)
                             break
+                        case MSG:
+                            this.log(message.msg)
+                            break
                         default:
                             this.log(`Unknown message status: ${status}`)
+                            this.log(message)
                     }
                 } else {
                     this.log({ message })

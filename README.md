@@ -17,7 +17,7 @@ It's best to create an instance it in a separate file and require as needed:
 ```sh
 const path = require('path')
 const jobFolderName = 'workerJobs'
-const SmurfWorkers = require('./SmurfWorkers')
+const SmurfWorkers = require('smurf-workers')
 const smurfWorkers = new SmurfWorkers({
     jobPath: path.join(__dirname, jobFolderName),
     log: console.log
@@ -39,17 +39,17 @@ From now on, workers await to do your bidding. To queue a job, provide **job nam
 smurfWorkers.smurf('processImage', { src: './input/tree.jpg', dest: './output/tree.jpg' })
 smurfWorkers.smurf('addWatermark', { src: './output/cat.jpg', dest: './output/cat.jpg' })
 ```
-This will add jobs to the queue. The job will be assigned immediately, if any worker in the given field is idle (the queue is empty). If not, it will be assigned as soon as workers are done with previously assigned workload. Workload will be evenly distributed across workers.
+This will add jobs to the queue. The job will be assigned immediately, if any worker in the given field is idle (and the queue is empty). If not, it will be assigned as soon as workers are done with previously assigned workload. Workload will be evenly distributed across workers.
 
 ### Creating Jobs
-Jobs are just functions, exported from separate file in jobPath (specified in instance setup step). File names should be the same as job names you provide in smurfWorker.spawn function (without .js extension). Job functions should also take **job details**, **onError** and **whenDone** callbacks as arguments. Order is important. Let's take 'processImage.js' job, shown in previous step, for example:
+Jobs are just functions, exported from a separate file in jobPath (specified in instance setup step). File names should be the same as job names you provide in smurfWorker.spawn function (without .js extension). Job functions should also take **job details**, plus **onError** and **whenDone** callbacks as arguments. Order is important. Let's take 'processImage.js' job, shown in previous step, for example:
 
 ###### **`processImage.js`**
 ```sh
 const sharp = require('sharp')
 sharp.cache(false)
 
-module.exports = function processImage({ src, dest }, onError, whenDone) {
+module.exports = function processImage({ src, dest }, onError, whenDone, log) {
 	sharp(src)
 		.rotate()
 		.resize(1024, 810)
