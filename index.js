@@ -36,7 +36,7 @@ class SmurfWorkers {
                             this.nextTask(jobName)
                             break
                         case MSG_ERR:
-                            this.log(`Smurf ${id} errored out smurfing ${jobname}`)
+                            this.log(`Smurf ${id} errored out smurfing ${jobName}`)
                             this._smurfsAvailable[jobName].push(id)
                             this.nextTask(jobName)
                             break
