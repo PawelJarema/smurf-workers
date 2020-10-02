@@ -28,7 +28,7 @@ class SmurfWorkers {
 
             smurf.on('message', message => {
                 if (message.status) {
-                    const { status, id, jobName } = message
+                    const { status, id, jobName, msg } = message
                     switch (status) {
                         case MSG_DONE:
                             this.log(`Smurf ${id} is done smurfing ${jobName}. Idle.`)
@@ -41,12 +41,13 @@ class SmurfWorkers {
                             this.nextTask(jobName)
                             break
                         case MSG:
-                            this.log(message.msg)
                             break
                         default:
                             this.log(`Unknown message status: ${status}`)
                             this.log(message)
                     }
+
+                    if (msg) this.log(msg)
                 } else {
                     this.log({ message })
                 }
