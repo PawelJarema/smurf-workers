@@ -1,6 +1,8 @@
 const { MSG_DONE, MSG_ERR, MSG } = require('./constants')
 const { Worker } = require('worker_threads')
 const path = require('path')
+const Queue = require('./Queue')
+
 class SmurfWorkers {
     constructor ({ jobPath, log }) {
         if (typeof jobPath !== 'string') throw new Error('jobPath required')
@@ -75,7 +77,7 @@ class SmurfWorkers {
     nextTask (jobName) {
         if (!this._tasks[jobName] || !this._tasks[jobName].length) return
         if (this._smurfsAvailable[jobName] && this._smurfsAvailable[jobName].length) {
-            const jobDetails = this._tasks[jobName].shift()
+            const jobDetails = this._tasks[jobName].dequeue()
             const id = this._smurfsAvailable[jobName].pop()
             const smurf = this._smurfs[id]
             this.log(`Assigning ${jobName} task to Smurf ${id}.`)
@@ -86,9 +88,9 @@ class SmurfWorkers {
     smurf (jobName, jobDetails) {
         if (!this._smurfsAvailable[jobName]) throw new Error(`No Smurf capable of ${jobName}.`)
         if (this._tasks[jobName]) {
-            this._tasks[jobName].push(jobDetails)
+            this._tasks[jobName].enqueue(jobDetails)
         } else {
-            this._tasks[jobName] = [jobDetails]
+            this._tasks[jobName] = new Queue(jobDetails)
         }
         this.nextTask(jobName)
     }
