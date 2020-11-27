@@ -30,7 +30,7 @@ class SmurfWorkers {
 
             smurf.on('message', message => {
                 if (message.status) {
-                    const { status, id, jobName, msg } = message
+                    const { status, id, jobName, msg, time } = message
                     switch (status) {
                         case MSG_DONE:
                             this.log(`Smurf ${id} is done smurfing ${jobName}. Idle.`)
@@ -49,6 +49,7 @@ class SmurfWorkers {
                             this.log(message)
                     }
 
+                    if (time) this.log(time)
                     if (msg) this.log(msg)
                 } else {
                     this.log({ message })
@@ -96,7 +97,7 @@ class SmurfWorkers {
     }
 
     cleanup () {
-        if (!this._smurfs) return 
+        if (!this._smurfs) return
         for (let i = this._smurfs.length - 1; i >= 0; i--) {
             this._smurfs[i].terminate()
             this._smurfs.length = i
